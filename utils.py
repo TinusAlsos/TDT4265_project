@@ -1,5 +1,4 @@
 import os
-import cv2
 import xml.dom.minidom
 import shutil
 
@@ -137,9 +136,10 @@ def remove_files_from_folder_by_type(folder_path: str, ending: str) -> None:
 def main():
     # data_set_name = 'Norway'
     # convert_RDD2022_to_darknet_format(data_set_name)
-    images_path = os.path.join(ROOT, 'yolov5', 'runs', 'detect', 'exp4')
-    create_empty_txts(images_path)
+    # images_path = os.path.join(ROOT, 'yolov5', 'runs', 'detect', 'exp4')
+    # create_empty_txts(images_path)
     # remove_files_from_folder_by_type(images_path, '.txt')
+    pass
 
 if __name__ == '__main__':
     main()
