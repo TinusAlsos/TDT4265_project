@@ -9,6 +9,7 @@ __pycache__/
 # Manually added
 RDD2022/
 dataset/
+/yolov5/.comtetml-runs/
 
 # Distribution / packaging
 .Python
