@@ -1,7 +1,7 @@
 import os
-import cv2
 import xml.dom.minidom
 import shutil
+import random
 
 ROOT =  os.path.dirname(os.path.abspath(__file__))
 RDD2022_DATA_FOLDER = os.path.join(ROOT, 'RDD2022')
@@ -32,7 +32,7 @@ def noramlize_yolo_format(x_center: float, y_center: float, w: float, h: float, 
     h /= image_height
     return x_center, y_center, w, h
 
-def convert_RDD2022_to_darknet_format(data_set_name: str, num_images_to_convert: int = -1) -> None:
+def convert_RDD2022_to_darknet_format(data_set_name: str = 'all_data', num_images_to_convert: int = -1) -> None:
     """ Function to convert RDD2022 dataset to Darknet format
      
     Args:
@@ -59,51 +59,63 @@ def convert_RDD2022_to_darknet_format(data_set_name: str, num_images_to_convert:
     if not os.path.exists(os.path.join(label_save_folder_path, 'val')):
         os.makedirs(os.path.join(label_save_folder_path, 'val'))
     # Get the list of image files
-    image_files = os.listdir(image_folder_path)
-    counter = 0
-    if num_images_to_convert != -1:
-        image_files = image_files[:num_images_to_convert]
-    for image_file in image_files:
-        if counter <= int(len(image_files)*0.8):
-            image_save_path = os.path.join(image_save_folder_path, 'train', image_file)
-            label_save_path = os.path.join(label_save_folder_path, 'train', os.path.splitext(image_file)[0] + '.txt')
-        else:
-            image_save_path = os.path.join(image_save_folder_path, 'val', image_file)
-            label_save_path = os.path.join(label_save_folder_path, 'val', os.path.splitext(image_file)[0] + '.txt')
-        counter += 1
+    if data_set_name == 'all_data':
+        image_folder_paths = []
+        annotiation_folder_paths = []
+        for folder_name in os.listdir(RDD2022_DATA_FOLDER):
+            image_folder_paths.append(os.path.join(RDD2022_DATA_FOLDER, folder_name, 'train', 'images'))
+            annotiation_folder_paths.append(os.path.join(RDD2022_DATA_FOLDER, folder_name, 'train', 'annotations', 'xmls'))
+    else:
+        image_folder_paths = []
+        image_folder_paths.append(image_folder_path)
+        annotiation_folder_paths = []
+        annotiation_folder_paths.append(annotiation_folder_path)
+    for idx, image_folder_path in enumerate(image_folder_paths):
+        annotiation_folder_path = annotiation_folder_paths[idx]
+        image_files = os.listdir(image_folder_path)
+        if num_images_to_convert != -1:
+            image_files = image_files[:num_images_to_convert]
+        for image_file in image_files:
+            if random.randint(0,4) <= 3:
+                image_save_path = os.path.join(image_save_folder_path, 'train', image_file)
+                label_save_path = os.path.join(label_save_folder_path, 'train', os.path.splitext(image_file)[0] + '.txt')
+            else:
+                image_save_path = os.path.join(image_save_folder_path, 'val', image_file)
+                label_save_path = os.path.join(label_save_folder_path, 'val', os.path.splitext(image_file)[0] + '.txt')
+                
+            # Copy the image file to the destination folder
+            shutil.copy(os.path.join(image_folder_path, image_file), image_save_path)
 
-        # Copy the image file to the destination folder
-        shutil.copy(os.path.join(image_folder_path, image_file), image_save_path)
-
-        # Extract the filename without extension
-        filename, extension = os.path.splitext(image_file)
-        # Check if corresponding XML annotation file exists
-        xml_file = os.path.join(annotiation_folder_path, filename + '.xml')
-        if not os.path.exists(xml_file):
-            print(f"Annotation file not found for image '{image_file}', skipping...")
-            continue
-        # Parse the XML annotation file
-        dom = xml.dom.minidom.parse(xml_file)
-        root = dom.documentElement
-        objects = dom.getElementsByTagName("object")
-        # Get the image size
-        width = float(root.getElementsByTagName('width')[0].childNodes[0].data)
-        height = float(root.getElementsByTagName('height')[0].childNodes[0].data)
-        # Loop through each object in the annotation
-        with open(label_save_path, 'w') as f:
-            for obj in objects:
-                xmin = float(obj.getElementsByTagName('xmin')[0].childNodes[0].data)
-                ymin = float(obj.getElementsByTagName('ymin')[0].childNodes[0].data)
-                xmax = float(obj.getElementsByTagName('xmax')[0].childNodes[0].data)
-                ymax = float(obj.getElementsByTagName('ymax')[0].childNodes[0].data)
-                label = obj.getElementsByTagName('name')[0].childNodes[0].data
-
-                # Convert the coordinates to Darknet format
-                x, y, w, h = pascal_voc_to_yolo_coordinates(xmin, ymin, xmax, ymax)
-                x, y, w, h = noramlize_yolo_format(x, y, w, h, width, height)
-                # Save the Darknet format annotation in a text file
-                darknet_annotation = f"{label_to_index_map[label]} {x} {y} {w} {h}\n"
-                f.write(darknet_annotation)
+            # Extract the filename without extension
+            filename, extension = os.path.splitext(image_file)
+            # Check if corresponding XML annotation file exists
+            xml_file = os.path.join(annotiation_folder_path, filename + '.xml')
+            if not os.path.exists(xml_file):
+                print(f"Annotation file not found for image '{image_file}', skipping...")
+                continue
+            # Parse the XML annotation file
+            dom = xml.dom.minidom.parse(xml_file)
+            root = dom.documentElement
+            objects = dom.getElementsByTagName("object")
+            # Get the image size
+            width = float(root.getElementsByTagName('width')[0].childNodes[0].data)
+            height = float(root.getElementsByTagName('height')[0].childNodes[0].data)
+            # Loop through each object in the annotation
+            with open(label_save_path, 'w') as f:
+                for obj in objects:
+                    xmin = float(obj.getElementsByTagName('xmin')[0].childNodes[0].data)
+                    ymin = float(obj.getElementsByTagName('ymin')[0].childNodes[0].data)
+                    xmax = float(obj.getElementsByTagName('xmax')[0].childNodes[0].data)
+                    ymax = float(obj.getElementsByTagName('ymax')[0].childNodes[0].data)
+                    label = obj.getElementsByTagName('name')[0].childNodes[0].data
+                    if label not in ['D00', 'D10', 'D20', 'D40']:
+                        continue
+                    # Convert the coordinates to Darknet format
+                    x, y, w, h = pascal_voc_to_yolo_coordinates(xmin, ymin, xmax, ymax)
+                    x, y, w, h = noramlize_yolo_format(x, y, w, h, width, height)
+                    # Save the Darknet format annotation in a text file
+                    darknet_annotation = f"{label_to_index_map[label]} {x} {y} {w} {h}\n"
+                    f.write(darknet_annotation)
 
 
 def create_empty_txts(images_path: str) -> None:
@@ -137,9 +149,11 @@ def remove_files_from_folder_by_type(folder_path: str, ending: str) -> None:
 def main():
     # data_set_name = 'Norway'
     # convert_RDD2022_to_darknet_format(data_set_name)
-    images_path = os.path.join(ROOT, 'yolov5', 'runs', 'detect', 'exp4')
-    create_empty_txts(images_path)
+    # images_path = os.path.join(ROOT, 'yolov5', 'runs', 'detect', 'exp4')
+    # create_empty_txts(images_path)
     # remove_files_from_folder_by_type(images_path, '.txt')
+    data_set_name = 'Japan'
+    # convert_RDD2022_to_darknet_format(data_set_name)
 
 if __name__ == '__main__':
     main()

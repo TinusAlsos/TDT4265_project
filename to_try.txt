@@ -1,0 +1,53 @@
+Sjekk ut SSD paper for tips til data augmentation: https://arxiv.org/pdf/1512.02325.pdf side 7 og 8  og https://jonathan-hui.medium.com/ssd-object-detection-single-shot-multibox-detector-for-real-time-processing-9bd8deac0e06
+
+
+For yolov5: Trenger .txt format for ground truth. Hver .txt har en rad for hvert objekt på formatet:
+classID Xc Yc w h
+altså:
+int float float float float
+hvor classID er iden til objektet, Xc og Yc er objektets senter mens w og h er width and height av objektet. Alle verdiene er normaliserte relativt til objektet.
+For å gå tilbake til unormaliserte verdier må Xc og w ganges med bildets width og Yx og h ganges med bildets height.
+
+yolov5 data prep:
+
+
+Install comet-ml med pip før du kjører for å unngå en eller annen error med wandb
+
+
+For å kjøre yolov5 (fra \yolov5):
+Trening:
+python train.py --img 640 --epochs 50 --device 0 --data all_data.yaml --weights yolov5s.pt --name natt_til_tirsdag
+
+HUSK --device 0 når du kjører på cybele computers
+
+Inference(test):
+python detect.py --weights runs/train/exp10/weights/best.pt --source Norway/test/images --name LOUIS --save-txt --save-conf
+
+
+FOR Å KOPIERE FRA REMOTE TIL LOCAL:
+Antar at du er inne i /mnt/c/Users/tinus (tror dette er windows subsystem for linux, som jeg kommer til ved å skrive bash i terminal)
+rsync -rvP tinusfa@clab03.idi.ntnu.no:/work/tinusfa/yolov5/runs/detect/predictions.zip path/to/storage
+
+
+
+Prøv C = minimum confidence threshold = 0.15
+PRØV NMS (non maximum supression) = .999
+
+KANSKJE PRØVE  Ensemble Prediction (EP) Approach using the
+Test Time Augmentation
+Ref: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9377833
+
+
+Sjekk ut SSD paper for tips til data augmentation: https://arxiv.org/pdf/1512.02325.pdf side 7 og 8  og https://jonathan-hui.medium.com/ssd-object-detection-single-shot-multibox-detector-for-real-time-processing-9bd8deac0e06
+
+
+For yolov5: Trenger .txt format for ground truth. Hver .txt har en rad for hvert objekt på formatet:
+classID Xc Yc w h
+altså:
+int float float float float
+hvor classID er iden til objektet, Xc og Yc er objektets senter mens w og h er width and height av objektet. Alle verdiene er normaliserte relativt til objektet.
+For å gå tilbake til unormaliserte verdier må Xc og w ganges med bildets width og Yx og h ganges med bildets height.
+
+yolov5 data prep:
+ekstra
+

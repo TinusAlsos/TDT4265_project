@@ -8,6 +8,7 @@ __pycache__/
 
 # Manually added
 RDD2022/
+dataset/
 
 # Distribution / packaging
 .Python
