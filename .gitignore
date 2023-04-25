@@ -10,6 +10,10 @@ __pycache__/
 RDD2022/
 dataset/
 yolov5/.comtetml-runs/
+dummy_dataset/
+dummy_dataset_augmented/
+yolov5/.comet*
+submissions/
 
 # Distribution / packaging
 .Python
