@@ -51,3 +51,15 @@ For å gå tilbake til unormaliserte verdier må Xc og w ganges med bildets widt
 yolov5 data prep:
 ekstra
 
+
+
+
+Eksempelkjøring tirsdag 1 batch yolov5:
+TRENING (1.2 timers):
+python train.py --img 640 --epochs 1 --device 0 --data all_data.yaml --weights yolov5s.pt --name enkelttest
+
+DETECT (10 min):
+python detect.py --weights runs/train/enkeltest/weights/best.pt --source ../RDD2022/Norway/test/images --name enkelttest --save-txt --save-conf
+
+dette printer ut "Result saved in /path/to/result" 
+Kopier pathen og lim den inn i variabelen predicts_file i submit.py
