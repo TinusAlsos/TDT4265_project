@@ -26,7 +26,7 @@ python detect.py --weights runs/train/exp10/weights/best.pt --source Norway/test
 
 FOR Å KOPIERE FRA REMOTE TIL LOCAL:
 Antar at du er inne i /mnt/c/Users/tinus (tror dette er windows subsystem for linux, som jeg kommer til ved å skrive bash i terminal)
-rsync -rvP tinusfa@clab03.idi.ntnu.no:/work/tinusfa/yolov5/runs/detect/predictions.zip path/to/storage
+rsync -rvP tinusfa@clab03.idi.ntnu.no:/work/tinusfa/TDT4265_project/send_to_your_computer.zip V2023/TDT4265_project/
 
 
 
@@ -51,3 +51,22 @@ For å gå tilbake til unormaliserte verdier må Xc og w ganges med bildets widt
 yolov5 data prep:
 ekstra
 
+
+
+
+Eksempelkjøring tirsdag 1 batch yolov5:
+TRENING (1.2 timers):
+python train.py --img 640 --epochs 1 --device 0 --data all_data.yaml --weights yolov5s.pt --name enkelttest
+
+DETECT (10 min):
+python detect.py --weights runs/train/enkeltest/weights/best.pt --source ../RDD2022/Norway/test/images --name enkelttest --save-txt --save-conf
+
+dette printer ut "Result saved in /path/to/result" 
+Kopier pathen og lim den inn i variabelen predicts_file i prepare_globox.py og kjør den, dette lager en zip som du må hente fra egen pc:
+
+FOR Å KOPIERE FRA REMOTE TIL LOCAL:
+Antar at du er inne i /mnt/c/Users/tinus (tror dette er windows subsystem for linux, som jeg kommer til ved å skrive bash i terminal)
+rsync -rvP tinusfa@clab03.idi.ntnu.no:/work/tinusfa/TDT4265_project/send_to_your_computer.zip V2023/TDT4265_project/
+
+Også kan du unzippe of få på riktig format ved å kjøre submit.py
+Du vil da sitte igjen med output{x}.json fil inne i submissions/predictions som kan leveres til leaderboard.
