@@ -9,7 +9,9 @@ __pycache__/
 # Manually added
 RDD2022/
 dataset/
-yolov5/.comtet*
+yolov5/.comet*
+yolov5/.cometml-runs/
+send_to_your_computer.zip
 
 # Distribution / packaging
 .Python

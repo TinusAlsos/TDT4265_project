@@ -152,8 +152,8 @@ def main():
     # images_path = os.path.join(ROOT, 'yolov5', 'runs', 'detect', 'exp4')
     # create_empty_txts(images_path)
     # remove_files_from_folder_by_type(images_path, '.txt')
-    data_set_name = 'Japan'
-    # convert_RDD2022_to_darknet_format(data_set_name)
+    data_set_name = 'Norway'
+    convert_RDD2022_to_darknet_format(data_set_name)
 
 if __name__ == '__main__':
     main()

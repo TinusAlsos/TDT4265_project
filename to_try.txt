@@ -21,7 +21,7 @@ python train.py --img 640 --epochs 50 --device 0 --data all_data.yaml --weights 
 HUSK --device 0 når du kjører på cybele computers
 
 Inference(test):
-python detect.py --weights runs/train/exp10/weights/best.pt --source Norway/test/images --name LOUIS --save-txt --save-conf
+python detect.py --weights runs/train/natt_til_onsdag_siste_del/weights/last.pt --source ../RDD2022/Norway/test/images --name natt_til_onsdag_siste_del --save-txt --save-conf
 
 
 FOR Å KOPIERE FRA REMOTE TIL LOCAL:
@@ -52,14 +52,29 @@ yolov5 data prep:
 ekstra
 
 
+BASE MODEL = runs/train/natt_til_onsdag_siste_del/weights/best.pt
 
 
 Eksempelkjøring tirsdag 1 batch yolov5:
 TRENING (1.2 timers):
 python train.py --img 640 --epochs 1 --device 0 --data all_data.yaml --weights yolov5s.pt --name enkelttest
+Eventuelt ta med --hyp data/hyps/norway.yaml for endrede hyperparamtere.
+
 
 DETECT (10 min):
 python detect.py --weights runs/train/enkeltest/weights/best.pt --source ../RDD2022/Norway/test/images --name enkelttest --save-txt --save-conf
 
 dette printer ut "Result saved in /path/to/result" 
 Kopier pathen og lim den inn i variabelen predicts_file i submit.py
+
+
+
+
+Prøv: Endre -yaml fil for configurasjon (--args ):     parser.add_argument('--hyp', type=str, default=ROOT / 'data/hyps/hyp.scratch-low.yaml', help='hyperparameters path')
+Prøv høyere fl_gamma?
+Prøv annerledes box og anchor_t?
+
+
+Natt til torsdag: 
+python train.py --img 1280 --epochs 1 --device 0 --data Norway.yaml --hyp data/hyps/norway.yaml --weights runs/train/natt_til_onsdag_siste_del/weights/best.pt --name natt_til_torsdag
+
