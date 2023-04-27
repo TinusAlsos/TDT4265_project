@@ -15,6 +15,10 @@ dummy_dataset_augmented/
 yolov5/.comet*
 submissions/
 RDD2022_modified/
+preds/
+myNotes.txt
+submission.json
+submissionCF.json
 
 # Distribution / packaging
 .Python
