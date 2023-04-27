@@ -26,7 +26,7 @@ python detect.py --weights runs/train/natt_til_onsdag_siste_del/weights/last.pt 
 
 FOR Å KOPIERE FRA REMOTE TIL LOCAL:
 Antar at du er inne i /mnt/c/Users/tinus (tror dette er windows subsystem for linux, som jeg kommer til ved å skrive bash i terminal)
-rsync -rvP tinusfa@clab03.idi.ntnu.no:/work/tinusfa/yolov5/runs/detect/predictions.zip path/to/storage
+rsync -rvP tinusfa@clab03.idi.ntnu.no:/work/tinusfa/TDT4265_project/send_to_your_computer.zip V2023/TDT4265_project/
 
 
 
@@ -78,3 +78,11 @@ Prøv annerledes box og anchor_t?
 Natt til torsdag: 
 python train.py --img 1280 --epochs 1 --device 0 --data Norway.yaml --hyp data/hyps/norway.yaml --weights runs/train/natt_til_onsdag_siste_del/weights/best.pt --name natt_til_torsdag
 
+Kopier pathen og lim den inn i variabelen predicts_file i prepare_globox.py og kjør den, dette lager en zip som du må hente fra egen pc:
+
+FOR Å KOPIERE FRA REMOTE TIL LOCAL:
+Antar at du er inne i /mnt/c/Users/tinus (tror dette er windows subsystem for linux, som jeg kommer til ved å skrive bash i terminal)
+rsync -rvP tinusfa@clab03.idi.ntnu.no:/work/tinusfa/TDT4265_project/send_to_your_computer.zip V2023/TDT4265_project/
+
+Også kan du unzippe of få på riktig format ved å kjøre submit.py
+Du vil da sitte igjen med output{x}.json fil inne i submissions/predictions som kan leveres til leaderboard.
