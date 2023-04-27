@@ -147,8 +147,8 @@ def remove_files_from_folder_by_type(folder_path: str, ending: str) -> None:
             print(f"File '{file}' removed successfully.")
 
 def main():
-    data_set_name = 'Czech'
-    #convert_RDD2022_to_darknet_format(data_set_name)
+    data_set_name = 'China_MotorBike'
+    convert_RDD2022_to_darknet_format(data_set_name)
     # images_path = os.path.join(ROOT, 'yolov5', 'runs', 'detect', 'exp4')
     # images_path = 'RDD2022/Norway/test/images'
     # create_empty_txts(images_path)
