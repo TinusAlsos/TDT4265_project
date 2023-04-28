@@ -1,0 +1,3 @@
+Har kjørt hele datsettet uredigert på size 640 batch size 16 på yolov5s 88+6 (nå 16)
+
+Conufsion matrix viser at den ofte gjetter bakgrunn (altså ikke detekterer ting), men at den så å si aldri gir falske positiver. Vi burde derfor senke threshfold for detection, så den prøver seg mer. 

@@ -2,7 +2,7 @@ import os
 import shutil
 from utils import create_empty_txts
 
-predicts_file = 'runs/detect/enkelttest3'
+predicts_file = 'runs/detect/torsdag_conf01iou97'
 
 predicts_file_path = 'yolov5/' + predicts_file
 predicts_label_path =predicts_file_path + '/labels'

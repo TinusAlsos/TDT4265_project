@@ -9,11 +9,15 @@ __pycache__/
 # Manually added
 RDD2022/
 dataset/
+yolov5/.comet*
+yolov5/.cometml-runs/
+send_to_your_computer.zip
 yolov5/.comtetml-runs/
 dummy_dataset/
 dummy_dataset_augmented/
 yolov5/.comet*
 submissions/
+RDD2022_modified/
 preds/
 myNotes.txt
 submission.json

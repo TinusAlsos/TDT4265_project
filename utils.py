@@ -32,7 +32,7 @@ def noramlize_yolo_format(x_center: float, y_center: float, w: float, h: float, 
     h /= image_height
     return x_center, y_center, w, h
 
-def convert_RDD2022_to_darknet_format(data_set_name: str = 'all_data', num_images_to_convert: int = -1) -> None:
+def convert_RDD2022_to_darknet_format(data_set_name: str = 'all_data', mod = False, num_images_to_convert: int = -1) -> None:
     """ Function to convert RDD2022 dataset to Darknet format
      
     Args:
@@ -40,11 +40,14 @@ def convert_RDD2022_to_darknet_format(data_set_name: str = 'all_data', num_image
         
     Returns:
         None"""
-
-    image_folder_path = os.path.join(RDD2022_DATA_FOLDER, data_set_name, 'train', 'images')
-    annotiation_folder_path = os.path.join(RDD2022_DATA_FOLDER, data_set_name, 'train', 'annotations', 'xmls')
-    image_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name, 'images')
-    label_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name, 'labels')
+    if mod:
+        image_folder_path = os.path.join(RDD2022_DATA_FOLDER.replace('RD2022', 'RD2022_modified'), data_set_name, 'train', 'images')
+        annotiation_folder_path = os.path.join(RDD2022_DATA_FOLDER.replace('RD2022', 'RD2022_modified'), data_set_name, 'train', 'annotations', 'xmls')
+    else:
+        image_folder_path = os.path.join(RDD2022_DATA_FOLDER, data_set_name, 'train', 'images')
+        annotiation_folder_path = os.path.join(RDD2022_DATA_FOLDER, data_set_name, 'train', 'annotations', 'xmls')
+    image_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name + '2', 'images')
+    label_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name + '2', 'labels')
     
     if not os.path.exists(image_save_folder_path):
         os.makedirs(image_save_folder_path)
@@ -63,8 +66,12 @@ def convert_RDD2022_to_darknet_format(data_set_name: str = 'all_data', num_image
         image_folder_paths = []
         annotiation_folder_paths = []
         for folder_name in os.listdir(RDD2022_DATA_FOLDER):
-            image_folder_paths.append(os.path.join(RDD2022_DATA_FOLDER, folder_name, 'train', 'images'))
-            annotiation_folder_paths.append(os.path.join(RDD2022_DATA_FOLDER, folder_name, 'train', 'annotations', 'xmls'))
+            if mod:
+                image_folder_paths.append(os.path.join(RDD2022_DATA_FOLDER.replace('RD2022', 'RD2022_modified'), folder_name, 'train', 'images'))
+                annotiation_folder_paths.append(os.path.join(RDD2022_DATA_FOLDER.replace('RD2022', 'RD2022_modified'), folder_name, 'train', 'annotations', 'xmls'))
+            else:
+                image_folder_paths.append(os.path.join(RDD2022_DATA_FOLDER, folder_name, 'train', 'images'))
+                annotiation_folder_paths.append(os.path.join(RDD2022_DATA_FOLDER, folder_name, 'train', 'annotations', 'xmls'))
     else:
         image_folder_paths = []
         image_folder_paths.append(image_folder_path)
@@ -153,8 +160,7 @@ def main():
     # images_path = 'RDD2022/Norway/test/images'
     # create_empty_txts(images_path)
     # remove_files_from_folder_by_type(images_path, '.txt')
-    # data_set_name = 'Japan'
-    # convert_RDD2022_to_darknet_format(data_set_name)
+    convert_RDD2022_to_darknet_format(mod = True)
 
 if __name__ == '__main__':
     main()

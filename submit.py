@@ -8,22 +8,27 @@ path_to_zip_file = 'send_to_your_computer.zip'
 
 path_to = 'submissions/predictions'
 
-identifier = str(int(os.listdir(path_to)[-1][-1] + 1))
+folders = os.listdir(path_to)
+folders = [folder for folder in folders if folder.startswith('pred') and len(folder) == 6]
+identifier = str(int(folders[-1][-2:]) + 1)
 
 foldername = 'pred' + identifier
 
-savefolder = os.path.join(path_to, foldername)
+savefolder = path_to + '/' + foldername
 
 with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
     zip_ref.extractall(savefolder)
 
 os.remove(path_to_zip_file)
 
-labels_path = os.path.join(savefolder, 'labels')
+labels_path = savefolder 
 image_folder_path = 'RDD2022/Norway/test/images'
 
 submission_json_path = f'{path_to}/submission{identifier}.json'
 output_json_path = f'{path_to}/output{identifier}.json'
+print(labels_path)
+print(submission_json_path)
+print(image_folder_path)
 
 os.system(f'globox convert {labels_path} {submission_json_path} --format yolov5 --save_fmt coco --img_folder {image_folder_path} --coco_auto_ids')
 
