@@ -43,11 +43,13 @@ def convert_RDD2022_to_darknet_format(data_set_name: str = 'all_data', mod = Fal
     if mod:
         image_folder_path = os.path.join(RDD2022_DATA_FOLDER.replace('RD2022', 'RD2022_modified'), data_set_name, 'train', 'images')
         annotiation_folder_path = os.path.join(RDD2022_DATA_FOLDER.replace('RD2022', 'RD2022_modified'), data_set_name, 'train', 'annotations', 'xmls')
+        image_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name + '2', 'images')
+        label_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name + '2', 'labels')
     else:
         image_folder_path = os.path.join(RDD2022_DATA_FOLDER, data_set_name, 'train', 'images')
         annotiation_folder_path = os.path.join(RDD2022_DATA_FOLDER, data_set_name, 'train', 'annotations', 'xmls')
-    image_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name + '2', 'images')
-    label_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name + '2', 'labels')
+        image_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name, 'images')
+        label_save_folder_path = os.path.join(ROOT, 'datasets', data_set_name, 'labels')
     
     if not os.path.exists(image_save_folder_path):
         os.makedirs(image_save_folder_path)
