@@ -19,6 +19,7 @@ yolov5/.comet*
 submissions/
 RDD2022_modified/
 preds/
+visualization/
 myNotes.txt
 submission.json
 submissionCF.json
