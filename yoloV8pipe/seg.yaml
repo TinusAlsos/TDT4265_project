@@ -1,8 +1,10 @@
-path: ../../datasets/crackedSeg # dataset root dir
+#path: "gdrive/MyDrive/Colab Notebooks/ny/datasets/crackedSeg" # dataset root dir
+#path: "/content/gdrive/MyDrive/Colab Notebooks/ny/datasets/crackedSeg"
+path: "/content/gdrive/MyDrive/Colab Notebooks/ny/yoloV8pipe/datasets/crackedSeg"
 
 train: train/images
 val: valid/images
-test: #../test/images
+test: test/images
 
 nc: 1
 names: ['cracks']
